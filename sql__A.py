@@ -305,6 +305,8 @@ agent = create_sql_agent(
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain_community.agent_toolkits import create_sql_agent
+from langchain.agents import AgentExecutor
+from langchain.memory import ConversationBufferMemory
 from dotenv import load_dotenv
 from db_conn import db
 import os
@@ -368,7 +370,7 @@ Then you should query the schema of the most relevant tables.
         top_k=5,
     )
 
-agent = create_sql_agent(
+base_agent = create_sql_agent(
     llm=model,
     db=db,
     # toolkit=toolkit,
@@ -378,6 +380,16 @@ agent = create_sql_agent(
     allow_dangerous_code=True
 )
 
+memory = ConversationBufferMemory(
+    memory_key="chat_history", 
+    return_messages=True)
+
+agent = AgentExecutor(
+    agent=base_agent.agent,
+    tools=base_agent.tools,
+    memory=memory,
+    verbose=True
+)
 
 # =================================== 
 # 6. Testing function
