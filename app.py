@@ -5,13 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import datetime
 from db_conn import db
 import logging
-
-try:
-    from sql__A import agent
-    print("Agent imported successfully")
-except ImportError as e:
-    print(f"Error importing agent: {e}")
-    print("Make sure sql__A.py is in the same directory")
+from sql__A import ask
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -67,11 +61,8 @@ async def health_check():
 async def query_db(request: QueryRequest):
     start_time = datetime.datetime.now()
     try:
-        result = agent.invoke(
-            {"input": request.question}
-        )
-
-        answer = result.get('output', 'No answer generated')
+        result = ask(request.question)
+        answer = result
         execution_time = (datetime.datetime.now() - start_time).total_seconds()
 
         logger.info(f"Query executed successfully in {execution_time:.2f}s")

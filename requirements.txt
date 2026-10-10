@@ -7,3 +7,6 @@ langchain-core==0.3.78
 langchain-huggingface==0.3.1
 huggingface_hub==1.10.1
 pydantic
+langchain-google-genai
+langgraph
+langchain_groq
