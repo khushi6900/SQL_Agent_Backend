@@ -1,8 +1,9 @@
 fastapi
 uvicorn
 python-dotenv
-langchain
-langchain-community
-langchain-huggingface
-huggingface-hub
+langchain==0.3.27
+langchain-community==0.3.30
+langchain-core==0.3.78
+langchain-huggingface==0.3.1
+huggingface_hub==1.10.1
 pydantic
